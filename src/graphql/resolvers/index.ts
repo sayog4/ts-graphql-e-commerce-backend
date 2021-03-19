@@ -1,3 +1,3 @@
 import userResolver from './userResolver'
-
-export const resolvers = [userResolver]
+import productResolver from './productResolver'
+export const resolvers = [userResolver, productResolver]

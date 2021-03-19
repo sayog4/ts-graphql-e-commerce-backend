@@ -17,6 +17,61 @@ export type Scalars = {
 };
 
 
+export type Query = {
+  __typename?: 'Query';
+  _?: Maybe<Scalars['String']>;
+  me?: Maybe<User>;
+  allProducts: Array<Product>;
+  singleProduct: Product;
+};
+
+
+export type QuerySingleProductArgs = {
+  id: Scalars['String'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  _?: Maybe<Scalars['String']>;
+  signUp?: Maybe<User>;
+  logOut: Scalars['String'];
+  logIn?: Maybe<User>;
+  uploadImage: Scalars['String'];
+  createProduct?: Maybe<Product>;
+  updateProduct?: Maybe<Product>;
+  deleteProduct?: Maybe<Product>;
+};
+
+
+export type MutationSignUpArgs = {
+  data: SignUpInput;
+};
+
+
+export type MutationLogInArgs = {
+  data: LogInInput;
+};
+
+
+export type MutationUploadImageArgs = {
+  image: Scalars['String'];
+};
+
+
+export type MutationCreateProductArgs = {
+  data: CreateProductInput;
+};
+
+
+export type MutationUpdateProductArgs = {
+  data: UpdateProductInput;
+};
+
+
+export type MutationDeleteProductArgs = {
+  id: Scalars['String'];
+};
+
 
 export type SignUpInput = {
   name: Scalars['String'];
@@ -38,26 +93,34 @@ export type User = {
   phone?: Maybe<Scalars['String']>;
 };
 
-export type Query = {
-  __typename?: 'Query';
-  me?: Maybe<User>;
+export type Product = {
+  __typename?: 'Product';
+  id?: Maybe<Scalars['String']>;
+  brand: Scalars['String'];
+  name: Scalars['String'];
+  description: Scalars['String'];
+  image: Scalars['String'];
+  countInStock: Scalars['Int'];
+  price: Scalars['Int'];
 };
 
-export type Mutation = {
-  __typename?: 'Mutation';
-  signUp?: Maybe<User>;
-  logOut: Scalars['String'];
-  logIn?: Maybe<User>;
+export type CreateProductInput = {
+  brand: Scalars['String'];
+  name: Scalars['String'];
+  description: Scalars['String'];
+  image: Scalars['String'];
+  countInStock: Scalars['Int'];
+  price: Scalars['Int'];
 };
 
-
-export type MutationSignUpArgs = {
-  data: SignUpInput;
-};
-
-
-export type MutationLogInArgs = {
-  data: LogInInput;
+export type UpdateProductInput = {
+  id: Scalars['String'];
+  brand: Scalars['String'];
+  name: Scalars['String'];
+  description: Scalars['String'];
+  image: Scalars['String'];
+  countInStock: Scalars['Int'];
+  price: Scalars['Int'];
 };
 
 export enum CacheControlScope {
@@ -144,32 +207,38 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Query: ResolverTypeWrapper<{}>;
+  String: ResolverTypeWrapper<Scalars['String']>;
+  Mutation: ResolverTypeWrapper<{}>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   SignUpInput: SignUpInput;
-  String: ResolverTypeWrapper<Scalars['String']>;
   LogInInput: LogInInput;
   User: ResolverTypeWrapper<User>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
-  Query: ResolverTypeWrapper<{}>;
-  Mutation: ResolverTypeWrapper<{}>;
+  Product: ResolverTypeWrapper<Product>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
+  CreateProductInput: CreateProductInput;
+  UpdateProductInput: UpdateProductInput;
   CacheControlScope: CacheControlScope;
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  Query: {};
+  String: Scalars['String'];
+  Mutation: {};
   Date: Scalars['Date'];
   SignUpInput: SignUpInput;
-  String: Scalars['String'];
   LogInInput: LogInInput;
   User: User;
   ID: Scalars['ID'];
-  Query: {};
-  Mutation: {};
-  Upload: Scalars['Upload'];
+  Product: Product;
   Int: Scalars['Int'];
+  CreateProductInput: CreateProductInput;
+  UpdateProductInput: UpdateProductInput;
+  Upload: Scalars['Upload'];
   Boolean: Scalars['Boolean'];
 };
 
@@ -177,6 +246,24 @@ export type CacheControlDirectiveArgs = {   maxAge?: Maybe<Scalars['Int']>;
   scope?: Maybe<CacheControlScope>; };
 
 export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Args = CacheControlDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  _?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  allProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType>;
+  singleProduct?: Resolver<ResolversTypes['Product'], ParentType, ContextType, RequireFields<QuerySingleProductArgs, 'id'>>;
+};
+
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  _?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  signUp?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSignUpArgs, 'data'>>;
+  logOut?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  logIn?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationLogInArgs, 'data'>>;
+  uploadImage?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationUploadImageArgs, 'image'>>;
+  createProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationCreateProductArgs, 'data'>>;
+  updateProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationUpdateProductArgs, 'data'>>;
+  deleteProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationDeleteProductArgs, 'id'>>;
+};
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date';
@@ -190,14 +277,15 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-};
-
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  signUp?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSignUpArgs, 'data'>>;
-  logOut?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  logIn?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationLogInArgs, 'data'>>;
+export type ProductResolvers<ContextType = any, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  brand?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  image?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  countInStock?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
@@ -205,10 +293,11 @@ export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 }
 
 export type Resolvers<ContextType = any> = {
-  Date?: GraphQLScalarType;
-  User?: UserResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  Date?: GraphQLScalarType;
+  User?: UserResolvers<ContextType>;
+  Product?: ProductResolvers<ContextType>;
   Upload?: GraphQLScalarType;
 };
 

@@ -12,10 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "@types/dotenv": "^8.2.0",
-    "apollo-server": "^2.21.1",
     "apollo-server-express": "^2.21.1",
     "apollo-server-types": "^0.6.3",
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.25.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",

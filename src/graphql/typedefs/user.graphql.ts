@@ -1,6 +1,6 @@
-import { gql } from 'apollo-server'
+import { gql } from 'apollo-server-express'
 
-const userSchema = gql`
+const userTypes = gql`
   scalar Date
   input SignUpInput {
     name: String!
@@ -18,13 +18,13 @@ const userSchema = gql`
     email: String
     phone: String
   }
-  type Query {
+  extend type Query {
     me: User
   }
-  type Mutation {
+  extend type Mutation {
     signUp(data: SignUpInput!): User
     logOut: String!
     logIn(data: LogInInput!): User
   }
 `
-export default userSchema
+export default userTypes
