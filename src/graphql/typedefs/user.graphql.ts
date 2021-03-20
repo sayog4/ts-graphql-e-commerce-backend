@@ -17,6 +17,7 @@ const userTypes = gql`
     name: String
     email: String
     phone: String
+    cart: [CartItem!]!
   }
   extend type Query {
     me: User

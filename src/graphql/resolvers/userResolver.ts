@@ -4,20 +4,16 @@ import { Resolvers } from '../../generated/graphql'
 import { Cart } from '../../models/CartModel'
 import { User } from '../../models/UserModel'
 import { generateCookieToken } from '../../utils/createToken'
-import { isAdmin } from '../../utils/checkAuth'
+import { isAuthorised } from '../../utils/checkAuth'
 /**
  * @description User Resolver
  */
 const userResolver: Resolvers = {
   Query: {
     me: async (_, args, context) => {
-      const { userId } = await isAdmin(context.req)
-      console.log(userId)
-      return {
-        name: 'sayog',
-        email: 'sayog@gmail.com',
-        phone: '48464564',
-      }
+      const { userId } = await isAuthorised(context.req)
+
+      return User.findById(userId)
     },
   },
   Mutation: {
