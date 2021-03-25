@@ -6,13 +6,13 @@ import { IUser } from './UserModel'
  * @description Cart model
  */
 
-type ProductItem = {
+type CartItem = {
   quantity: number
   product: IProduct['_id']
 }
 interface ICart extends Document {
   user: IUser['_id']
-  products: ProductItem[]
+  products: CartItem[]
 }
 
 const cartSchema: Schema = new Schema({

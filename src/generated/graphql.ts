@@ -23,6 +23,7 @@ export type Query = {
   me?: Maybe<User>;
   allProducts: Array<Product>;
   singleProduct: Product;
+  myCart: Cart;
 };
 
 
@@ -40,6 +41,8 @@ export type Mutation = {
   createProduct?: Maybe<Product>;
   updateProduct?: Maybe<Product>;
   deleteProduct?: Maybe<Product>;
+  addToCart?: Maybe<Scalars['Boolean']>;
+  removeFromCart: Scalars['String'];
 };
 
 
@@ -73,6 +76,16 @@ export type MutationDeleteProductArgs = {
 };
 
 
+export type MutationAddToCartArgs = {
+  data: AddToCartInput;
+};
+
+
+export type MutationRemoveFromCartArgs = {
+  productId: Scalars['String'];
+};
+
+
 export type SignUpInput = {
   name: Scalars['String'];
   email: Scalars['String'];
@@ -91,6 +104,7 @@ export type User = {
   name?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
+  cart?: Maybe<Array<Maybe<CartItem>>>;
 };
 
 export type Product = {
@@ -121,6 +135,23 @@ export type UpdateProductInput = {
   image: Scalars['String'];
   countInStock: Scalars['Int'];
   price: Scalars['Int'];
+};
+
+export type CartItem = {
+  __typename?: 'CartItem';
+  product: Product;
+  quantity: Scalars['Int'];
+};
+
+export type Cart = {
+  __typename?: 'Cart';
+  id?: Maybe<Scalars['String']>;
+  products?: Maybe<Array<Maybe<CartItem>>>;
+};
+
+export type AddToCartInput = {
+  productId: Scalars['String'];
+  quantity: Scalars['Int'];
 };
 
 export enum CacheControlScope {
@@ -210,6 +241,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Mutation: ResolverTypeWrapper<{}>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   SignUpInput: SignUpInput;
   LogInInput: LogInInput;
@@ -219,9 +251,11 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']>;
   CreateProductInput: CreateProductInput;
   UpdateProductInput: UpdateProductInput;
+  CartItem: ResolverTypeWrapper<CartItem>;
+  Cart: ResolverTypeWrapper<Cart>;
+  AddToCartInput: AddToCartInput;
   CacheControlScope: CacheControlScope;
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -229,6 +263,7 @@ export type ResolversParentTypes = {
   Query: {};
   String: Scalars['String'];
   Mutation: {};
+  Boolean: Scalars['Boolean'];
   Date: Scalars['Date'];
   SignUpInput: SignUpInput;
   LogInInput: LogInInput;
@@ -238,8 +273,10 @@ export type ResolversParentTypes = {
   Int: Scalars['Int'];
   CreateProductInput: CreateProductInput;
   UpdateProductInput: UpdateProductInput;
+  CartItem: CartItem;
+  Cart: Cart;
+  AddToCartInput: AddToCartInput;
   Upload: Scalars['Upload'];
-  Boolean: Scalars['Boolean'];
 };
 
 export type CacheControlDirectiveArgs = {   maxAge?: Maybe<Scalars['Int']>;
@@ -252,6 +289,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   allProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType>;
   singleProduct?: Resolver<ResolversTypes['Product'], ParentType, ContextType, RequireFields<QuerySingleProductArgs, 'id'>>;
+  myCart?: Resolver<ResolversTypes['Cart'], ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -263,6 +301,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationCreateProductArgs, 'data'>>;
   updateProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationUpdateProductArgs, 'data'>>;
   deleteProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationDeleteProductArgs, 'id'>>;
+  addToCart?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddToCartArgs, 'data'>>;
+  removeFromCart?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationRemoveFromCartArgs, 'productId'>>;
 };
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
@@ -274,6 +314,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  cart?: Resolver<Maybe<Array<Maybe<ResolversTypes['CartItem']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -288,6 +329,18 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type CartItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['CartItem'] = ResolversParentTypes['CartItem']> = {
+  product?: Resolver<ResolversTypes['Product'], ParentType, ContextType>;
+  quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CartResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cart'] = ResolversParentTypes['Cart']> = {
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  products?: Resolver<Maybe<Array<Maybe<ResolversTypes['CartItem']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
   name: 'Upload';
 }
@@ -298,6 +351,8 @@ export type Resolvers<ContextType = any> = {
   Date?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
   Product?: ProductResolvers<ContextType>;
+  CartItem?: CartItemResolvers<ContextType>;
+  Cart?: CartResolvers<ContextType>;
   Upload?: GraphQLScalarType;
 };
 

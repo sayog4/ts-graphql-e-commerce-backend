@@ -78,5 +78,17 @@ const userResolver: Resolvers = {
       return user
     },
   },
+  User: {
+    cart: async (parent) => {
+      const cart = await Cart.findOne({ user: parent.id }).populate({
+        path: 'products.product',
+        model: 'Product',
+      })
+      if (!cart) throw new Error('Not found')
+      // console.log(cart)
+
+      return cart.products
+    },
+  },
 }
 export default userResolver

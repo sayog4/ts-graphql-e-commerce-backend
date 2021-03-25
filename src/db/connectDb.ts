@@ -5,7 +5,7 @@ export const connectDB = async () => {
     console.log(process.env.MONGO_URI!)
     const con = await mongoose.connect(process.env.MONGO_URI!, {
       useUnifiedTopology: true,
-      useFindAndModify: true,
+      useFindAndModify: false,
       useNewUrlParser: true,
       useCreateIndex: true,
     })
